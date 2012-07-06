@@ -1,0 +1,50 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+	<title>iGlassDoor - An inside look at jobs and companies...on iPhone</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="css/jquery.mobile.structure-1.1.0.css" />
+	<link rel="stylesheet" href="themes/iglassdoor.css" />
+	<link rel="stylesheet" href="themes/iglassdoor-glyphish.css" />
+	<script src="scripts/jquery-1.7.1.min.js"></script>
+	<script src="scripts/jquery.cookies.2.2.0.min.js"></script>
+    	<script src="scripts/iglassdoor-main.js"></script>
+	<script src="scripts/jquery.mobile-1.1.0.min.js"></script>
+</head> 
+<body> 
+
+<div data-role="page" id="iglassdoor-salaries">
+
+	<div data-role="header">
+		<h1>iGlassDoor</h1>
+	</div>
+
+	<div id="search-salaries-collapsible" data-role="collapsible" data-theme="a" data-content-theme="a">
+		<h1>Search</h1>
+		<form action="get" data-ajax="false">
+			<label for="search-salaries">Salaries:</label>
+			<input type="search" name="search-salaries" id="search-salaries" placeholder="Title, Keyword or Company" />		
+			<label for="search-salaries-location">In:</label>
+			<input type="search" name="search-salaries-location" id="search-salaries-location" placeholder="Location (optional)" />
+			<a href="#" id="search-salaries-button" data-role="button">Search</a> 	
+		</form>
+	</div>	
+
+	<ul id="results-salaries" data-role="listview" data-theme="b" data-content-theme="b" class="ui-state-persist">
+	</ul>
+	
+	<div data-role="footer" data-theme="c" data-position="fixed" data-fullscreen="true" data-tap-toggle="false" class="nav-glyphish-example">
+		<div data-role="navbar" data-iconpos="top" class="nav-glyphish-example" data-grid="d">
+			<ul>
+				<li><a href="jobs.html" id="glyphish-jobs" data-icon="custom" data-id="iglassdoor-tabs"><span style="font-size:10px">Jobs</span></a></li>
+				<li><a href="companies.html" id="glyphish-companies" data-icon="custom" data-id="iglassdoor-tabs"><span style="font-size:10px">Companies</span></a></li>
+				<li><a href="salaries.html" id="glyphish-salaries" data-icon="custom" data-id="iglassdoor-tabs" class="ui-btn-active ui-state-persist"><span style="font-size:10px">Salaries</span></a></li>
+				<li><a href="interviews.html" id="glyphish-interviews" data-icon="custom" data-id="iglassdoor-tabs"><span style="font-size:10px">Interviews</span></a></li>
+				<li><a href="more.html" id="glyphish-more" data-icon="custom" data-id="iglassdoor-tabs"><span style="font-size:10px">More</span></a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

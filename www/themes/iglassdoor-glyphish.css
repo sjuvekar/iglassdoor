@@ -1,0 +1,42 @@
+.nav-glyphish-example .ui-btn .ui-btn-inner { 
+	padding-top: 40px !important; 
+}
+
+.nav-glyphish-example .ui-btn .ui-icon { 
+	width: 30px!important; 
+	height: 25px!important; 
+	margin-left: -15px !important; 
+	box-shadow: none!important; 
+	-moz-box-shadow: none!important; 
+	-webkit-box-shadow: none!important; 
+	-webkit-border-radius: 0 !important; 
+	border-radius: 0 !important;
+}
+
+
+#glyphish-more .ui-icon { 
+	background:  url(../icons/more.png) 50% 50% no-repeat; 
+	background-size: 28px 23px; 
+}
+
+#glyphish-jobs .ui-icon { 
+	background:  url(../icons/jobs.png) 50% 50% no-repeat; 
+	background-size: 24px 24px;  
+}
+
+#glyphish-companies .ui-icon { 
+	background:  url(../icons/companies.png) 50% 50% no-repeat;  
+	background-size: 29px 24px; 
+}
+		
+#glyphish-salaries .ui-icon { 
+	background:  url(../icons/salaries.png) 50% 50% no-repeat;  
+	background-size: 28px 23px; 
+}
+		
+#glyphish-interviews .ui-icon { 
+	background:  url(../icons/interviews.png) 50% 50% no-repeat;  
+	background-size: 12px 24px; 
+}
+
+
