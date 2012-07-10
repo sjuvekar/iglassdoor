@@ -4,10 +4,6 @@ var __HARDCODED_COOKIE__ = '"c3VkanV2ZWthckB5YWhvby5jb206MTM3Mjg5NDg1MTIzMjpmMWY
 
 /// A hash table for maintaining search get urls
 var __SEARCH_GET_URLS__ = "http://www.iglassdoor-sjuvekar.appspot.com/search?"
-///__SEARCH_GET_URLS__["jobs"] = "http://www.glassdoor.com/GD/Job/jobs.htm?sc.keyword="
-///__SEARCH_GET_URLS__["companies"] = "http://www.glassdoor.com/GD/Reviews/company-reviews.htm?sc.keyword="
-///__SEARCH_GET_URLS__["salaries"] = "http://www.glassdoor.com/GD/Salaries/company-salaries.htm?clickSource=searchBtn&sc.keyword="
-///__SEARCH_GET_URLS__["interviews"] = "http://www.glassdoor.com/GD/Interview/job-interview-questions.htm?sc.keyword="
 
 /// A hash table for display string after searching
 __DISPLAY_STRING__ = new Object()
@@ -25,13 +21,17 @@ var setCookie = function(cookieName) {
 var handleTabClick = function(tabName) {
 	company = $("#search-" + tabName).val()	
     company = company.replace(/\s/g, "-")
-	url = __SEARCH_GET_URLS__ + "type=" + tabName + "&company=" + company
 	$("#results-" + tabName).empty()
-                .append($("<li></li>")
-                        .append($("<a></a>").attr("href", url)
-                                .append($("<h1></h1>").html(company + " " + __DISPLAY_STRING__[tabName]))
-                                        .append($("<p></p>").html("100 results for 10 jobs")
-        )));
+    url = __SEARCH_GET_URLS__ + "type=" + tabName + "&company=" + company + "&callback=?"
+	$.getJSON(url, function(data){ 
+		$.each(data, function(i, item) {
+			$("#results-" + tabName).
+				append($("<li></li>")
+					.append($("<a></a>").attr("href", url)
+						.append($("<h1></h1>").text(item)
+			)));
+		});
+	});
 	$("#results-" + tabName).listview("refresh");
 	$("#search-" + tabName + "-collapsible").trigger("collapse");
 
@@ -67,7 +67,8 @@ var handleTwitterClick = function() {
 		$.each(data, function(i, item) {
 			$("#results-twitter")
 				.append($("<li></li>")
-					.append($("<a></a>").attr("href", "http://www.twitter.com/" + username + "/status/" + item.id_str)						.append($("<img />").attr("src", "icons/twitter-list.png"))
+					.append($("<a></a>").attr("href", "http://www.twitter.com/" + username + "/status/" + item.id_str)						
+						.append($("<img />").attr("src", "icons/twitter-list.png"))
 						.append($("<strong></strong>").html("Glassdoor&nbsp;"))
 							.append($("<i></i>").css("font-weight", "normal").css("font-size", "10px").html("@Glassdoordotcom"))
                             .append($("<p></p>").css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal").html(item.text)
