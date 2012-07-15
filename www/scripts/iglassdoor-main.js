@@ -28,7 +28,7 @@ var addPageLinks = function(data, tabName) {
     	$("#pages-" + tabName)
     		.append($("<li></li>")
     			.append($("<a></a>").attr("href", __GLASSDOOR_URL__ +  pages[key])
-    				.append($("<h1></h1>").text("Page: " + key)
+    				.append($("<h1></h1>").html("Page: " + key)
     	)));
     	$("#pages-" + tabName).listview("refresh");
     }
@@ -44,8 +44,8 @@ var handleJobsClick = function(tabName) {
             $("#results-" + tabName).
               append($("<li></li>")
                 .append($("<a></a>").attr("href", __GLASSDOOR_URL__ + jobs[i].url)
-                    .append($("<h1></h1>").text(jobs[i].title)
-                        .append($("<p></p>").text(jobs[i].location).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal")
+                    .append($("<h1></h1>").html(jobs[i].title)
+                        .append($("<p></p>").html(jobs[i].location).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal")
             ))));
         }
         $("#results-" + tabName).listview("refresh");
@@ -63,8 +63,8 @@ var handleSalariesClick = function(tabName) {
             $("#results-" + tabName).
               append($("<li></li>")
                 .append($("<a></a>").attr("href", __GLASSDOOR_URL__ + salaries[i].url)
-                    .append($("<h1></h1>").text(salaries[i].title)
-                        .append($("<p></p>").text(salaries[i].num_reports).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal")
+                    .append($("<h1></h1>").html(salaries[i].title)
+                        .append($("<p></p>").html(salaries[i].num_reports).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal")
             ))));
             $("#results-" + tabName).listview("refresh");
         }
@@ -82,8 +82,8 @@ var handleInterviewsClick = function(tabName) {
             $("#results-" + tabName).
               append($("<li></li>")
                 .append($("<a></a>").attr("href", __GLASSDOOR_URL__ + interviews[i].url)
-                    .append($("<h1></h1>").text(interviews[i].title)
-                        .append($("<p></p>").text(interviews[i].description).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal")
+                    .append($("<h1></h1>").html(interviews[i].title)
+                        .append($("<p></p>").html(interviews[i].description).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal")
             ))));
             $("#results-" + tabName).listview("refresh");
         }
