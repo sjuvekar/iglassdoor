@@ -22,6 +22,7 @@ var setCookie = function(cookieName) {
 
 /// Add link pages
 var addPageLinks = function(data, tabName) {
+	$("#inset-" + tabName).prepend($("<h3></h3>").text("More Results"));
 	pages = data.pages
     for (var key in pages) {
     	$("#pages-" + tabName)
@@ -46,8 +47,8 @@ var handleJobsClick = function(tabName) {
                     .append($("<h1></h1>").text(jobs[i].title)
                         .append($("<p></p>").text(jobs[i].location).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal")
             ))));
-            $("#results-" + tabName).listview("refresh");
         }
+        $("#results-" + tabName).listview("refresh");
         addPageLinks(data, tabName)
     });
 	$("#search-" + tabName + "-collapsible").trigger("collapse");
