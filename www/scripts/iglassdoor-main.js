@@ -20,6 +20,19 @@ var setCookie = function(cookieName) {
 	$.cookie("rm", cookieName, {domain: "www.glassdoor.com"});
 }
 
+/// Add link pages
+var addPageLinks = function(data, tabName) {
+	pages = data.pages
+    for (var key in pages) {
+    	$("#pages-" + tabName)
+    		.append($("<li></li>")
+    			.append($("<a></a>").attr("href", __GLASSDOOR_URL__ +  pages[key])
+    				.append($("<h1></h1>").text("Page: " + key)
+    	)));
+    	$("#pages-" + tabName).listview("refresh");
+    }
+}
+
 /// A method to handle click event for a given tab. Pass appropriate tab string name
 var handleJobsClick = function(tabName) {
     url = getURL(tabName);
@@ -35,6 +48,7 @@ var handleJobsClick = function(tabName) {
             ))));
             $("#results-" + tabName).listview("refresh");
         }
+        addPageLinks(data, tabName)
     });
 	$("#search-" + tabName + "-collapsible").trigger("collapse");
 }
@@ -53,6 +67,7 @@ var handleSalariesClick = function(tabName) {
             ))));
             $("#results-" + tabName).listview("refresh");
         }
+        addPageLinks(data, tabName)
     });
 	$("#search-" + tabName + "-collapsible").trigger("collapse");
 }
@@ -71,6 +86,7 @@ var handleInterviewsClick = function(tabName) {
             ))));
             $("#results-" + tabName).listview("refresh");
         }
+        addPageLinks(data, tabName)
     });
 	$("#search-" + tabName + "-collapsible").trigger("collapse");
 }
