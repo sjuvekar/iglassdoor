@@ -16,20 +16,27 @@
 
 <div data-role="page" id="iglassdoor-more">
 
-	<div data-role="header">
+	<div data-role="header" data-id="iglassdoor-header" data-position="fixed">
 		<h1>iGlassDoor</h1>
 	</div>
 
-	<ul id="results-more" data-role="listview" data-theme="b" data-content-theme="b">
-		<li><a id="blog-list-item" href="blog.html"><img class="ul-li-icon" src="icons/blog.png" alt="blog-icon" />
-            <h1>Blog</h1>
-            <p style="white-space:normal">Latest blog posts from GlassDoor</p>
-        </a></li>
-        <li><a id="twitter-list-item" href="twitter.html"><img class="ul-li-icon" src="icons/twitter.png" alt="twitter-icon" />
-            <h1>Twitter</h1>
-            <p> Latest tweets from GlassDoor</p>
-        </a></li>
-    </ul>
+	<div data-role="content">
+		<ul id="results-more" data-role="listview" data-theme="b" data-content-theme="b">
+			<li>
+				<a id="blog-list-item" href="blog.html"><img class="ul-li-icon" src="icons/blog.png" alt="blog-icon" />
+            				<h1>Blog</h1>
+            				<p style="white-space:normal">Latest blog posts from GlassDoor</p>
+        			</a>
+			</li>
+        		<li>
+        			<a id="twitter-list-item" href="twitter.html">
+        				<img class="ul-li-icon" src="icons/twitter.png" alt="twitter-icon" />
+            				<h1>Twitter</h1>
+            				<p> Latest tweets from GlassDoor</p>
+        			</a>
+			</li>
+    		</ul>
+	</div>
 	
 	<div data-role="footer" data-theme="c" data-position="fixed" data-fullscreen="true" data-tap-toggle="false" class="nav-glyphish-example">
 		<div data-role="navbar" data-iconpos="top" class="nav-glyphish-example" data-grid="d">
