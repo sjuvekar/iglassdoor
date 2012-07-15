@@ -22,7 +22,7 @@ var setCookie = function(cookieName) {
 
 /// Add link pages
 var addPageLinks = function(data, tabName) {
-	$("#inset-" + tabName).prepend($("<h3></h3>").text("More Results"));
+	$("#inset-" + tabName).prepend($("<h3></h3>").html("More Results"));
 	pages = data.pages
     for (var key in pages) {
     	$("#pages-" + tabName)
@@ -34,10 +34,17 @@ var addPageLinks = function(data, tabName) {
     }
 }
 
+/// Clear all divs
+var clearStuff = function(tabName) {
+	$("#results-" + tabName).empty();
+	$("#pages-" + tabName).empty();
+	$("#inset-" + tabName).html("");
+}
+
 /// A method to handle click event for a given tab. Pass appropriate tab string name
 var handleJobsClick = function(tabName) {
     url = getURL(tabName);
-    $("#results-" + tabName).empty();
+    clearStuff(tabName);
     $.getJSON(url, function(data){ 
         jobs = data.jobs_list;
         for (var i = 0; i < jobs.length; i++) {
@@ -56,7 +63,7 @@ var handleJobsClick = function(tabName) {
 
 var handleSalariesClick = function(tabName) {
     url = getURL(tabName);
-    $("#results-" + tabName).empty();
+    clearStuff(tabName);
     $.getJSON(url, function(data){ 
         salaries = data.salaries_list;
         for (var i = 0; i < salaries.length; i++) {
@@ -75,7 +82,7 @@ var handleSalariesClick = function(tabName) {
 
 var handleInterviewsClick = function(tabName) {
     url = getURL(tabName);
-    $("#results-" + tabName).empty();
+    clearStuff(tabName);
     $.getJSON(url, function(data){ 
         interviews = data.interviews_list;
         for (var i = 0; i < interviews.length; i++) {
@@ -147,20 +154,6 @@ $(document).bind("pageinit", function(event) {
     $("#search-companies-button").click(  function() { handleTabClick("companies"); });
     $("#search-salaries-button").click(  function() { handleSalariesClick("salaries"); });
     $("#search-interviews-button").click(  function() { handleInterviewsClick("interviews"); });
-
-    /// Events after expanding the collapsible search button
-    $("#search-companies-collapsible").bind("expand", function() {
-        $("#results-companies").empty();
-    });
-    $("#search-jobs-collapsible").bind("expand", function() {
-        $("#results-jobs").empty();
-    });
-    $("#search-salaries-collapsible").bind("expand", function() {
-        $("#results-salaries").empty();
-    });
-    $("#search-interviews-collapsible").bind("expand", function() {
-        $("#results-interviews").empty();
-    });
 
     /// Events after clicking Blog in more
     $("#blog-list-item").click( function() { handleBlogClick(); }); 
