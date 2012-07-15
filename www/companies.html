@@ -15,19 +15,21 @@
 
 <div data-role="page" id="iglassdoor-companies">
 
-	<div data-role="header">
+	<div data-role="header" data-id="iglassdoor-header">
 		<h1>iGlassDoor</h1>
 	</div>
 
-	<div id="search-companies-collapsible" data-role="collapsible" data-theme="a" data-content-theme="a">
-		<h1>Search Company Reviews</h1>
-		<label for="search-companies">Companies:</label>
-		<input type="search" name="search-companies" id="search-companies" placeholder="Title, Keyword or Company" />		
-		<label for="search-companies-location">In:</label>
-		<input type="search" name="search-companies-location" id="search-companies-location" placeholder="Location (optional)" />
-		<a href="#" id="search-companies-button" data-role="button">Search</a> 	
-	</div>	
-
+	<div data-role="content">
+		<div id="search-companies-collapsible" data-role="collapsible" data-theme="a" data-content-theme="a">
+			<h1>Search Company Reviews</h1>
+			<label for="search-companies">Companies:</label>
+			<input type="search" name="search-companies" id="search-companies" placeholder="Title, Keyword or Company" />		
+			<label for="search-companies-location">In:</label>
+			<input type="search" name="search-companies-location" id="search-companies-location" placeholder="Location (optional)" />
+			<a href="#" id="search-companies-button" data-role="button">Search</a> 	
+		</div>	
+	</div>
+	
 	<ul id="results-companies" data-role="listview" data-theme="b" data-content-theme="b" class="ui-state-persist">
 	</ul>
 	

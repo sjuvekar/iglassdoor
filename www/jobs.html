@@ -15,21 +15,23 @@
 
 <div data-role="page" id="iglassdoor-jobs">
 
-	<div data-role="header">
+	<div data-role="header" data-id="iglassdoor-header">
 		<h1>iGlassDoor</h1>
 	</div>
 
-	<div id="search-jobs-collapsible" data-role="collapsible" data-theme="a" data-content-theme="a">
-		<h1>Search Jobs</h1>
-		<label for="search-jobs">Jobs:</label>
-		<input type="search" name="search-jobs" id="search-jobs" placeholder="Title, Keyword or Company" />		
-		<label for="search-jobs-location">In:</label>
-		<input type="search" name="search-jobs-location" id="search-jobs-location" placeholder="Location (optional)" />
-		<a href="#" id="search-jobs-button" data-role="button">Search</a> 	
-	</div>	
+	<div data-role="content">
+		<div id="search-jobs-collapsible" data-role="collapsible" data-theme="a" data-content-theme="a">
+			<h1>Search Jobs</h1>
+			<label for="search-jobs">Jobs:</label>
+			<input type="search" name="search-jobs" id="search-jobs" placeholder="Title, Keyword or Company" />		
+			<label for="search-jobs-location">In:</label>
+			<input type="search" name="search-jobs-location" id="search-jobs-location" placeholder="Location (optional)" />
+			<a href="#" id="search-jobs-button" data-role="button">Search</a> 	
+		</div>	
 
-	<ul id="results-jobs" data-role="listview" data-theme="b" data-content-theme="b" class="ui-state-persist">
-	</ul>
+		<ul id="results-jobs" data-role="listview" data-theme="b" data-content-theme="b" class="ui-state-persist">
+		</ul>
+	</div>
 	
 	<div data-role="footer" data-theme="c" data-position="fixed" data-fullscreen="true" data-tap-toggle="false" class="nav-glyphish-example">
 		<div data-role="navbar" data-iconpos="top" class="nav-glyphish-example" data-grid="d">
