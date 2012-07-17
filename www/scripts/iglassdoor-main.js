@@ -34,6 +34,13 @@ var addPageLinks = function(data, tabName) {
     }
 }
 
+var getURL = function(tabName) {
+	company = $("#search-" + tabName).val()	;
+    company = company.replace(/\s/g, "-");
+    url = __SEARCH_GET_URLS__ + "type=" + tabName + "&company=" + company + "&callback=";
+    return url;
+};
+
 /// Clear all divs
 var clearStuff = function(tabName) {
 	$("#results-" + tabName).empty();
@@ -43,9 +50,11 @@ var clearStuff = function(tabName) {
 
 /// A method to handle click event for a given tab. Pass appropriate tab string name
 var handleJobsClick = function(tabName) {
+	$.mobile.showPageLoadingMsg();
     url = getURL(tabName);
     clearStuff(tabName);
     $.getJSON(url, function(data){ 
+    	$.mobile.hidePageLoadingMsg();
         jobs = data.jobs_list;
         for (var i = 0; i < jobs.length; i++) {
             $("#results-" + tabName).
@@ -61,10 +70,39 @@ var handleJobsClick = function(tabName) {
 	$("#search-" + tabName + "-collapsible").trigger("collapse");
 }
 
+var handleCompaniesClick = function(tabName) {
+	$.mobile.showPageLoadingMsg();
+    url = getURL(tabName);
+    clearStuff(tabName);
+    $.getJSON(url, function(data){
+    	$.mobile.showPageLoadingMsg();
+        jobs = data.jobs_list;
+        for (var i = 0; i < jobs.length; i++) {
+        	$el = $("<li></li>")
+        	if (jobs[i].url) {
+        		$el.append("<a></a>").attr("href", __GLASSDOOR_URL__ + jobs[i].url);
+        	}
+        	$el.append($("<h1></h1>").html(jobs[i].title));
+        	if (jobs[i].Rating) {
+        		$el.append($("<p></p>").html(jobs[i].Rating).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal"));
+        	}
+        	if (jobs[i].description) {
+        		$el.append($("<p></p>").html(jobs[i].description).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal"));
+        	}
+            $("#results-" + tabName).append($el);
+        }
+        $("#results-" + tabName).listview("refresh");
+        addPageLinks(data, tabName)
+    });
+	$("#search-" + tabName + "-collapsible").trigger("collapse");
+}
+
 var handleSalariesClick = function(tabName) {
+	$.mobile.showPageLoadingMsg();
     url = getURL(tabName);
     clearStuff(tabName);
     $.getJSON(url, function(data){ 
+    	$.mobile.hidePageLoadingMsg();
         salaries = data.salaries_list;
         for (var i = 0; i < salaries.length; i++) {
             $("#results-" + tabName).
@@ -81,9 +119,11 @@ var handleSalariesClick = function(tabName) {
 }
 
 var handleInterviewsClick = function(tabName) {
+	$.mobile.showPageLoadingMsg();
     url = getURL(tabName);
     clearStuff(tabName);
     $.getJSON(url, function(data){ 
+    	$.mobile.hidePageLoadingMsg();
         interviews = data.interviews_list;
         for (var i = 0; i < interviews.length; i++) {
             $("#results-" + tabName).
@@ -99,16 +139,12 @@ var handleInterviewsClick = function(tabName) {
 	$("#search-" + tabName + "-collapsible").trigger("collapse");
 }
 
-var getURL = function(tabName) {
-	company = $("#search-" + tabName).val()	;
-    company = company.replace(/\s/g, "-");
-    url = __SEARCH_GET_URLS__ + "type=" + tabName + "&company=" + company + "&callback=";
-    return url;
-};
 
 /// A function to handle blog click
 var handleBlogClick = function() {
+	$.mobile.showPageLoadingMsg();
 	$.jGFeed("http://feeds2.feedburner.com/glassdoor", function(feeds) {
+		$.mobile.hidePageLoadingMsg();
 		if (!feeds) 
 			$("#results-blog").empty().append($("<li></li>").html("No feed"))
 		else {
@@ -129,10 +165,12 @@ var handleBlogClick = function() {
 
 /// A function to get tweets from GlassDoor
 var handleTwitterClick = function() {
+	$.mobile.showPageLoadingMsg();
 	var username = "Glassdoordotcom";   
 	var count = 10;
 	$("#results-twitter").empty();     
-	$.getJSON("http://twitter.com/status/user_timeline/" + username + ".json?count=" + count + "&callback=?", function(data){ 
+	$.getJSON("http://twitter.com/status/user_timeline/" + username + ".json?count=" + count + "&callback=?", function(data){
+		$.mobile.hidePageLoadingMsg();
 		$.each(data, function(i, item) {
 			$("#results-twitter")
 				.append($("<li></li>")
@@ -151,7 +189,7 @@ var handleTwitterClick = function() {
 $(document).bind("pageinit", function(event) {
                  
     $("#search-jobs-button").click(  function() { handleJobsClick("jobs"); });
-    $("#search-companies-button").click(  function() { handleTabClick("companies"); });
+    $("#search-companies-button").click(  function() { handleCompaniesClick("companies"); });
     $("#search-salaries-button").click(  function() { handleSalariesClick("salaries"); });
     $("#search-interviews-button").click(  function() { handleInterviewsClick("interviews"); });
 
