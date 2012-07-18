@@ -32,7 +32,7 @@ var setCookie = function(cookieName) {
 var getLocationId = function(url) {
 	$.ajax({
 		type: 'GET',
-		url: 'whatever',
+		url: url,
 		dataType: 'json',
 		success: function(data) { 
 			if (data.locations != null) {
@@ -42,7 +42,7 @@ var getLocationId = function(url) {
 				__GLOBAL_LOCATION_ID__["locName"] = first_location.name;
 			}
 		},
-		data: data,
+		data: "",
 		async: false
 	});
 }
@@ -139,7 +139,6 @@ var handleCompaniesClick = function(tabName) {
 var handleSalariesClick = function(tabName) {
 	$.mobile.showPageLoadingMsg();
     url = getURL(tabName);
-    alert(url);
     clearStuff(tabName);
     $.getJSON(url, function(data){ 
     	$.mobile.hidePageLoadingMsg();
