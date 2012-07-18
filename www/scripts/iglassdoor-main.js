@@ -15,6 +15,14 @@ __DISPLAY_STRING__["companies"] = "Company Reviews"
 __DISPLAY_STRING__["salaries"] = "Salaries"
 __DISPLAY_STRING__["interviews"] = "Interviews"
 
+// Location_id dict
+__GLOBAL_LOCATION_ID__ = {};
+var __RESET_GLOBAL_LOCATION_ID__ = function() {
+	__GLOBAL_LOCATION_ID__["locId"] = "";
+	__GLOBAL_LOCATION_ID__["locT"] = "";
+	__GLOBAL_LOCATION_ID__["name"] = "";
+}
+
 /// A method to set cookie
 var setCookie = function(cookieName) {
 	$.cookie("rm", cookieName, {domain: "www.glassdoor.com"});
@@ -22,19 +30,21 @@ var setCookie = function(cookieName) {
 
 // Get Location id from url
 var getLocationId = function(url) {
-	var locationId = {};
-	locationId["locId"] = "";
-	locationId["locT"] = "";
-	locationId["locName"] = "";
-	$.getJSON(url, function(data) {
-		if (data.locations != null) {
-			first_location = data.locations[0];
-			locationId["locId"] = "&locId=" + first_location.id;
-			locationId["locT"] = "&locT=" + first_location.type;
-			locationId["locName"] = first_location.name;
-		}
+	$.ajax({
+		type: 'GET',
+		url: 'whatever',
+		dataType: 'json',
+		success: function(data) { 
+			if (data.locations != null) {
+				first_location = data.locations[0];
+				__GLOBAL_LOCATION_ID__["locId"] = "&locId=" + first_location.id;
+				__GLOBAL_LOCATION_ID__["locT"] = "&locT=" + first_location.type;
+				__GLOBAL_LOCATION_ID__["locName"] = first_location.name;
+			}
+		},
+		data: data,
+		async: false
 	});
-	return locationId;
 }
 
 var getURL = function(tabName) {
@@ -42,12 +52,14 @@ var getURL = function(tabName) {
 	locT = "";
 	company = $("#search-" + tabName).val()	;
 	my_location = $("#search-" + tabName + "-location").val();
+	my_location = my_location.replace(/\s/g, "-");
 	if (my_location != null && my_location != "") {
-		locationId = getLocationId(__LOCATION_SEARCH_URL__ + my_location);
-		locId = locationId["locId"];
-		locT = locationId["locT"];
+		getLocationId(__LOCATION_SEARCH_URL__ + my_location + "&callback=");
+		locId = __GLOBAL_LOCATION_ID__["locId"];
+		locT = __GLOBAL_LOCATION_ID__["locT"];
+		__RESET_GLOBAL_LOCATION_ID__();
 	}
-	company = company.replace(/\s/g, "-");	
+	company = company.replace(/\s/g, "+");	
     url = __SEARCH_GET_URLS__ + "type=" + tabName + "&company=" + company + locId + locT + "&callback=";
     return url;
 };
@@ -127,6 +139,7 @@ var handleCompaniesClick = function(tabName) {
 var handleSalariesClick = function(tabName) {
 	$.mobile.showPageLoadingMsg();
     url = getURL(tabName);
+    alert(url);
     clearStuff(tabName);
     $.getJSON(url, function(data){ 
     	$.mobile.hidePageLoadingMsg();
@@ -209,7 +222,7 @@ var handleTwitterClick = function() {
 	var username = "Glassdoordotcom";   
 	var count = 10;
 	$("#results-twitter").empty();     
-	$.getJSON("http://twitter.com/status/user_timeline/" + username + ".json?count=" + count + "&callback=?", function(data){
+	$.getJSON("http://twitter.com/status/user_timeline/" + username + ".json?count=" + count + "&callback=", function(data){
 		$.mobile.hidePageLoadingMsg();
 		$.each(data, function(i, item) {
 			$("#results-twitter")
@@ -227,7 +240,9 @@ var handleTwitterClick = function() {
 
 /// A global document oninit method
 $(document).bind("pageinit", function(event) {
-                 
+	// Reset locations
+	__RESET_GLOBAL_LOCATION_ID__();
+	
     $("#search-jobs-button").click(  function() { handleJobsClick("jobs"); });
     $("#search-companies-button").click(  function() { handleCompaniesClick("companies"); });
     $("#search-salaries-button").click(  function() { handleSalariesClick("salaries"); });
