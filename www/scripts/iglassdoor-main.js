@@ -20,6 +20,38 @@ var setCookie = function(cookieName) {
 	$.cookie("rm", cookieName, {domain: "www.glassdoor.com"});
 }
 
+// Get Location id from url
+var getLocationId = function(url) {
+	var locationId = {};
+	locationId["locId"] = "";
+	locationId["locT"] = "";
+	locationId["locName"] = "";
+	$.getJSON(url, function(data) {
+		if (data.locations != null) {
+			first_location = data.locations[0];
+			locationId["locId"] = "&locId=" + first_location.id;
+			locationId["locT"] = "&locT=" + first_location.type;
+			locationId["locName"] = first_location.name;
+		}
+	});
+	return locationId;
+}
+
+var getURL = function(tabName) {
+	locId = "";
+	locT = "";
+	company = $("#search-" + tabName).val()	;
+	my_location = $("#search-" + tabName + "-location").val();
+	if (my_location != null && my_location != "") {
+		locationId = getLocationId(__LOCATION_SEARCH_URL__ + my_location);
+		locId = locationId["locId"];
+		locT = locationId["locT"];
+	}
+	company = company.replace(/\s/g, "-");	
+    url = __SEARCH_GET_URLS__ + "type=" + tabName + "&company=" + company + locId + locT + "&callback=";
+    return url;
+};
+
 /// Add link pages
 var addPageLinks = function(data, tabName) {
 	$("#inset-" + tabName).prepend($("<h3></h3>").html("More Results"));
@@ -34,12 +66,6 @@ var addPageLinks = function(data, tabName) {
     }
 }
 
-var getURL = function(tabName) {
-	company = $("#search-" + tabName).val()	;
-    company = company.replace(/\s/g, "-");
-    url = __SEARCH_GET_URLS__ + "type=" + tabName + "&company=" + company + "&callback=";
-    return url;
-};
 
 /// Clear all divs
 var clearStuff = function(tabName) {
@@ -62,7 +88,7 @@ var handleJobsClick = function(tabName) {
                 .append($("<a></a>").attr("href", __GLASSDOOR_URL__ + jobs[i].url)
                     .append($("<h1></h1>").html(jobs[i].title).css("white-space", "normal")
                         .append($("<p></p>").html(jobs[i].location).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal")
-                        		.append($("<p></p>").html(jobs[i].description).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal")
+                        		.append($("<p></p>").html(jobs[i].description).css("margin-top", "10px").css("white-space", "normal")
             )))));
         }
         $("#results-" + tabName).listview("refresh");
@@ -131,12 +157,21 @@ var handleInterviewsClick = function(tabName) {
     	$.mobile.hidePageLoadingMsg();
         interviews = data.interviews_list;
         for (var i = 0; i < interviews.length; i++) {
-            $("#results-" + tabName).
-              append($("<li></li>")
-                .append($("<a></a>").attr("href", __GLASSDOOR_URL__ + interviews[i].url)
-                    .append($("<h1></h1>").html(interviews[i].title).css("white-space", "normal")
-                        .append($("<p></p>").html(interviews[i].description).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal")
-            ))));
+        	$el = $("<li></li>");
+        	if (interviews[i].url != null)
+        		$el.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + interviews[i].url));
+        	$el.append($("<h1></h1>").html(interviews[i].title).css("white-space", "normal"));
+        	if (interviews[i].description != null)
+        		$el.append($("<p></p>").html(interviews[i].description).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal"));
+        	if (interviews[i].status != null)
+        		$el.append($("<p></p>").html(interviews[i].status).css("margin-top", "10px").css("white-space", "normal"));
+        	if (interviews[i].review != null)
+        		$el.append($("<p></p>").html("Review: " + interviews[i].review).css("margin-top", "10px").css("white-space", "normal"));
+        	if (interviews[i].details != null)
+        		$el.append($("<p></p>").html(interviews[i].details).css("margin-top", "10px").css("white-space", "normal"));
+        	if (interviews[i].questions != null)
+        		$el.append($("<p></p>").html(interviews[i].questions).css("margin-top", "10px").css("white-space", "normal"));
+            $("#results-" + tabName).append($el);
             $("#results-" + tabName).listview("refresh");
         }
         addPageLinks(data, tabName)
