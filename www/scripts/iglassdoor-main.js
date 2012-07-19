@@ -51,6 +51,7 @@ var getURL = function(tabName) {
 	locId = "";
 	locT = "";
 	company = $("#search-" + tabName).val()	;
+	company = company.replace(/\s/g, "-");	
 	my_location = $("#search-" + tabName + "-location").val();
 	my_location = my_location.replace(/\s/g, "-");
 	if (my_location != null && my_location != "") {
@@ -59,8 +60,7 @@ var getURL = function(tabName) {
 		locT = __GLOBAL_LOCATION_ID__["locT"];
 		__RESET_GLOBAL_LOCATION_ID__();
 	}
-	company = company.replace(/\s/g, "+");	
-    url = __SEARCH_GET_URLS__ + "type=" + tabName + "&company=" + company + locId + locT + "&callback=";
+	url = __SEARCH_GET_URLS__ + "type=" + tabName + "&company=" + company + locId + locT + "&callback=";
     return url;
 };
 
@@ -88,9 +88,9 @@ var clearStuff = function(tabName) {
 
 /// A method to handle click event for a given tab. Pass appropriate tab string name
 var handleJobsClick = function(tabName) {
+	clearStuff(tabName);
 	$.mobile.showPageLoadingMsg();
-    url = getURL(tabName);
-    clearStuff(tabName);
+	url = getURL(tabName);
     $.getJSON(url, function(data){ 
     	$.mobile.hidePageLoadingMsg();
         jobs = data.jobs_list;
@@ -110,9 +110,9 @@ var handleJobsClick = function(tabName) {
 }
 
 var handleCompaniesClick = function(tabName) {
+	clearStuff(tabName);
 	$.mobile.showPageLoadingMsg();
     url = getURL(tabName);
-    clearStuff(tabName);
     $.getJSON(url, function(data){
     	$.mobile.hidePageLoadingMsg();
         companies = data.companies_list;
@@ -137,9 +137,9 @@ var handleCompaniesClick = function(tabName) {
 }
 
 var handleSalariesClick = function(tabName) {
+	clearStuff(tabName);
 	$.mobile.showPageLoadingMsg();
     url = getURL(tabName);
-    clearStuff(tabName);
     $.getJSON(url, function(data){ 
     	$.mobile.hidePageLoadingMsg();
         salaries = data.salaries_list;
@@ -162,9 +162,9 @@ var handleSalariesClick = function(tabName) {
 }
 
 var handleInterviewsClick = function(tabName) {
+	clearStuff(tabName);
 	$.mobile.showPageLoadingMsg();
     url = getURL(tabName);
-    clearStuff(tabName);
     $.getJSON(url, function(data){ 
     	$.mobile.hidePageLoadingMsg();
         interviews = data.interviews_list;
