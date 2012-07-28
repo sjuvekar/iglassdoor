@@ -86,110 +86,6 @@ var clearStuff = function(tabName) {
 	$("#inset-" + tabName).html("");
 }
 
-/// A method to handle click event for a given tab. Pass appropriate tab string name
-var handleJobsClick = function(tabName) {
-	clearStuff(tabName);
-	$.mobile.showPageLoadingMsg();
-	url = getURL(tabName);
-    $.getJSON(url, function(data){ 
-    	$.mobile.hidePageLoadingMsg();
-        jobs = data.jobs_list;
-        for (var i = 0; i < jobs.length; i++) {
-            $("#results-" + tabName).
-              append($("<li></li>")
-                .append($("<a></a>").attr("href", __GLASSDOOR_URL__ + jobs[i].url)
-                    .append($("<h1></h1>").html(jobs[i].title).css("white-space", "normal")
-                        .append($("<p></p>").html(jobs[i].location).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal")
-                        		.append($("<p></p>").html(jobs[i].description).css("margin-top", "10px").css("white-space", "normal")
-            )))));
-        }
-        $("#results-" + tabName).listview("refresh");
-        addPageLinks(data, tabName)
-    });
-	$("#search-" + tabName + "-collapsible").trigger("collapse");
-}
-
-var handleCompaniesClick = function(tabName) {
-	clearStuff(tabName);
-	$.mobile.showPageLoadingMsg();
-    url = getURL(tabName);
-    $.getJSON(url, function(data){
-    	$.mobile.hidePageLoadingMsg();
-        companies = data.companies_list;
-        for (var i = 0; i < companies.length; i++) {
-        	$el = $("<li></li>")
-        	if (companies[i].url != null) {
-        		$el.append("<a></a>").attr("href", __GLASSDOOR_URL__ + companies[i].url);
-        	}
-        	$el.append($("<h1></h1>").html(companies[i].title).css("white-space", "normal"));
-        	if (companies[i].Rating != null) {
-        		$el.append($("<p></p>").html("Average Rating: " + companies[i].Rating).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal"));
-        	} 
-        	if (companies[i].description != null) {
-        		$el.append($("<p></p>").html(companies[i].description).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal"));
-        	}
-            $("#results-" + tabName).append($el);
-        }
-        $("#results-" + tabName).listview("refresh");
-        addPageLinks(data, tabName)
-    });
-	$("#search-" + tabName + "-collapsible").trigger("collapse");
-}
-
-var handleSalariesClick = function(tabName) {
-	clearStuff(tabName);
-	$.mobile.showPageLoadingMsg();
-    url = getURL(tabName);
-    $.getJSON(url, function(data){ 
-    	$.mobile.hidePageLoadingMsg();
-        salaries = data.salaries_list;
-        for (var i = 0; i < salaries.length; i++) {
-        	$el = $("<li></li>");
-        	$el.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + salaries[i].url));
-        	$el.append($("<h1></h1>").html(salaries[i].title).css("white-space", "normal"));
-        	if (salaries[i].num_reports != null)
-        		$el.append($("<p></p>").html(salaries[i].num_reports).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal"));
-        	if (salaries[i].mean_salary != null)
-        		$el.append($("<p></p>").html("<b>Average Salary:</b> " + salaries[i].mean_salary).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal"));
-        	if (salaries[i].max_salary != null)
-        		$el.append($("<p></p>").html("<b>Min:</b> " + salaries[i].min_salary + " , <b>Max:</b> " + salaries[i].max_salary).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal"));
-            $("#results-" + tabName).append($el);
-            $("#results-" + tabName).listview("refresh");
-        }
-        addPageLinks(data, tabName)
-    });
-	$("#search-" + tabName + "-collapsible").trigger("collapse");
-}
-
-var handleInterviewsClick = function(tabName) {
-	clearStuff(tabName);
-	$.mobile.showPageLoadingMsg();
-    url = getURL(tabName);
-    $.getJSON(url, function(data){ 
-    	$.mobile.hidePageLoadingMsg();
-        interviews = data.interviews_list;
-        for (var i = 0; i < interviews.length; i++) {
-        	$el = $("<li></li>");
-        	if (interviews[i].url != null)
-        		$el.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + interviews[i].url));
-        	$el.append($("<h1></h1>").html(interviews[i].title).css("white-space", "normal"));
-        	if (interviews[i].description != null)
-        		$el.append($("<p></p>").html(interviews[i].description).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal"));
-        	if (interviews[i].status != null)
-        		$el.append($("<p></p>").html(interviews[i].status).css("margin-top", "10px").css("white-space", "normal"));
-        	if (interviews[i].review != null)
-        		$el.append($("<p></p>").html("Review: " + interviews[i].review).css("margin-top", "10px").css("white-space", "normal"));
-        	if (interviews[i].details != null)
-        		$el.append($("<p></p>").html(interviews[i].details).css("margin-top", "10px").css("white-space", "normal"));
-        	if (interviews[i].questions != null)
-        		$el.append($("<p></p>").html(interviews[i].questions).css("margin-top", "10px").css("white-space", "normal"));
-            $("#results-" + tabName).append($el);
-            $("#results-" + tabName).listview("refresh");
-        }
-        addPageLinks(data, tabName)
-    });
-	$("#search-" + tabName + "-collapsible").trigger("collapse");
-}
 
 
 /// A function to handle blog click
@@ -247,6 +143,11 @@ $(document).bind("pageinit", function(event) {
     $("#search-salaries-button").click(  function() { handleSalariesClick("salaries"); });
     $("#search-interviews-button").click(  function() { handleInterviewsClick("interviews"); });
 
+    $("#results-interviews a").click( function() {
+    	$(this).preventDefault();
+        alert("Interviews")
+    	handleInterviewsClick("interviews");
+    });
     /// Events after clicking Blog in more
     $("#blog-list-item").click( function() { handleBlogClick(); }); 
         

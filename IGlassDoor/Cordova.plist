@@ -22,9 +22,12 @@
 	<false/>
 	<key>ExternalHosts</key>
 	<array>
+		<string>*</string>
 		<string>code.jquery.com</string>
 		<string>www.glassdoor.com</string>
 		<string>css.glassdoor.com</string>
+		<string>img.glassdoor.com</string>
+		<string>media.glassdoor.com</string>
 		<string>ajax.googleapis.com</string>
 		<string>feeds2.feedburner.com</string>
 		<string>feedproxy.google.com</string>

@@ -132,6 +132,11 @@
     return YES;    
 }
 
+- (BOOL) webView:(UIWebView*)theWebView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType
+{
+        return [self.viewController webView:theWebView shouldStartLoadWithRequest:request navigationType:navigationType];
+}
+
 - (void) dealloc
 {
 	[super dealloc];
