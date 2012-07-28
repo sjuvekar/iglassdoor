@@ -14,8 +14,9 @@ var handleJobsClick = function(tabName) {
         	url = $(jobTitle).find("a").attr("href");
         	job_location = $(jobListingData).find("span.location")[0];
         	description = $(jobListingData).find("p.desc")[0];
-            $("#results-" + tabName).
-              append($("<li></li>")
+            
+        	$("#results-" + tabName)
+              .append($("<li></li>")
                 .append($("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "blank")
                     .append($("<h1></h1>").html(title).css("white-space", "normal"))
                         .append($("<p></p>").html(job_location).css("margin-left", "10px").css("white-space", "normal"))
