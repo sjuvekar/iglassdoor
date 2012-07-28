@@ -67,15 +67,21 @@ var getURL = function(tabName) {
 /// Add link pages
 var addPageLinks = function(data, tabName) {
 	$("#inset-" + tabName).prepend($("<h3></h3>").html("More Results"));
-	pages = data.pages
-    for (var key in pages) {
-    	$("#pages-" + tabName)
-    		.append($("<li></li>")
-    			.append($("<a></a>").attr("href", __GLASSDOOR_URL__ +  pages[key])
-    				.append($("<h1></h1>").html("Page: " + key)
-    	)));
-    	$("#pages-" + tabName).listview("refresh");
-    }
+	return_html = $(data.contents);
+	pages = return_html.find("div.pagingControls");
+	if (pages) {
+		all_links = pages.find("li");
+		for (var i = 0; i < all_links.length; i++) {
+			if ($(all_links[i]).is(".prevBtn,.currPage,.seqBreak,.nextBtn")) continue;
+			a = $(all_links[i]).find("a");
+			$("#pages-" + tabName)
+    			.append($("<li></li>")
+    				.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + a.attr("href"))
+    					.append($("<h1></h1>").html("Page: " + a.text())
+    		)));
+			$("#pages-" + tabName).listview("refresh");
+		}
+	}
 }
 
 
