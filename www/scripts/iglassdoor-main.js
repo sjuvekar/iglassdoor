@@ -88,6 +88,7 @@ var addPageLinks = function(data, tabName) {
 /// Clear all divs
 var clearStuff = function(tabName) {
 	$("#results-" + tabName).empty();
+	$("#results-" + tabName + "-header").empty();
 	$("#pages-" + tabName).empty();
 	$("#inset-" + tabName).html("");
 }

@@ -35,8 +35,11 @@ var handleJobsClick = function(tabName) {
 	url = getURL(tabName);
 	$.getJSON(url, function(data){ 
     	$.mobile.hidePageLoadingMsg();
-    	return_html = $(data.contents)
+    	return_html = $(data.contents);
     	jobs = return_html.find("div.jobListing");
+    	new_h1 = return_html.find("h1.pad, h1.h");
+    	if (new_h1 && new_h1 != "")
+    		$("#results-" + tabName + "-header").append($("<b>" + new_h1.text() + "</b>"));
     	for (var i = 0; i < jobs.length; i++) {
     		var el = createDomElement(jobs[i]);
     		if (el)
