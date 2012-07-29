@@ -29,10 +29,13 @@ var createJobDomElement = function(jobListing) {
 }
 
 /// A method to handle click event for a given tab. Pass appropriate tab string name
-var handleJobsClick = function(tabName) {
+var handleJobsClick = function(tabName, passed_url) {
 	$.mobile.showPageLoadingMsg();
 	clearStuff(tabName);
-	url = getURL(tabName);
+	if (passed_url)
+		url = __SEARCH_GET_URLS__ + "url=" + passed_url;
+	else
+		url = getURL(tabName);
 	$.getJSON(url, function(data){ 
     	$.mobile.hidePageLoadingMsg();
     	return_html = $(data.contents);

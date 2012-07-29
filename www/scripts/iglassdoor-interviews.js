@@ -4,7 +4,7 @@ var createInterviewCompanyDomElement = function(interviewCompanyListing) {
 	var description = "";
 	companyDataLink = $(interviewCompanyListing).find("h3.tightTop").find("a");
 	companyData = $(interviewCompanyListing).find("p.tightBot");
-	if (companyDataLink == undefined && companyData == undefined)
+	if (companyDataLink === undefined && companyData === undefined)
 		return undefined;
 	if (companyDataLink) {
 		title = companyDataLink.text();
@@ -27,7 +27,7 @@ var createInterviewElement = function(interviewQuestion) {
 	var description = "";
 	interview_title = $(interviewQuestion).find("h3").find("a");
 	interview_detail = $(interviewQuestion).find("p.questionText");
-	if (interview_title == undefined && interview_detail == undefined)
+	if (interview_title === undefined && interview_detail === undefined)
 		return undefined;
 	if (interview_title) {
 		title = interview_title.text();
@@ -53,10 +53,13 @@ var printEmployerHeader = function(return_html) {
 	return undefined;
 }
 
-var handleInterviewsClick = function(tabName) {
+var handleInterviewsClick = function(tabName, passed_url) {
 	$.mobile.showPageLoadingMsg();
     clearStuff(tabName);
-	url = getURL(tabName);
+    if (passed_url)
+		url = __SEARCH_GET_URLS__ + "url=" + passed_url;
+	else
+		url = getURL(tabName);
     $.getJSON(url, function(data){ 
     	$.mobile.hidePageLoadingMsg();
     	return_html = $(data.contents);
@@ -66,7 +69,7 @@ var handleInterviewsClick = function(tabName) {
     	searchResultCf = return_html.find(".searchResult.cf");
         for (var i = 0; i < searchResultCf.length; i++) {
         	el = createInterviewCompanyDomElement(searchResultCf[i]);
-        	if (el == undefined) continue;
+        	if (el === undefined) continue;
         	$("#results-" + tabName).append(el);
             $("#results-" + tabName).listview("refresh");
         }
@@ -77,7 +80,7 @@ var handleInterviewsClick = function(tabName) {
         	if (!my_id || !my_id.match("InterviewQuestionResult_.*"))
         		continue;
         	el = createInterviewElement(interviewQuestionList[i]);
-        	if (el == undefined) continue;
+        	if (el === undefined) continue;
         	$("#results-" + tabName + "-alt").append(el);
             $("#results-" + tabName + "-alt").listview("refresh");
         }

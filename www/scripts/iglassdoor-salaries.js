@@ -44,10 +44,13 @@ var createSalariesIndividualElement = function(dataRow) {
 	return el;
 }
 
-var handleSalariesClick = function(tabName) {
+var handleSalariesClick = function(tabName, passed_url) {
 	$.mobile.showPageLoadingMsg();
     clearStuff(tabName);
-	url = getURL(tabName);
+    if (passed_url)
+		url = __SEARCH_GET_URLS__ + "url=" + passed_url;
+	else
+		url = getURL(tabName);
     $.getJSON(url, function(data){ 
     	$.mobile.hidePageLoadingMsg();
     	return_html = $(data.contents)

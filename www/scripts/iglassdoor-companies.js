@@ -37,10 +37,13 @@ var createCompaniesSnippetElement = function(company_data) {
 	return summary;
 }
 
-var handleCompaniesClick = function(tabName) {
+var handleCompaniesClick = function(tabName, passed_url) {
 	$.mobile.showPageLoadingMsg();
     clearStuff(tabName);
-	url = getURL(tabName);
+    if (passed_url)
+		url = __SEARCH_GET_URLS__ + "url=" + passed_url;
+	else
+		url = getURL(tabName);
     $.getJSON(url, function(data){
     	$.mobile.hidePageLoadingMsg();
     	return_html = $(data.contents)

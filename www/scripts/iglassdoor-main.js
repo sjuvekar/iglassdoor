@@ -76,7 +76,7 @@ var addPageLinks = function(data, tabName) {
 			a = $(all_links[i]).find("a");
 			$("#pages-" + tabName)
     			.append($("<li></li>")
-    				.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + a.attr("href"))
+    				.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + a.attr("href")).addClass("pagelinks-" + tabName)
     					.append($("<h1></h1>").html("Page: " + a.text())
     		)));
 			my_length += 1;
@@ -88,6 +88,19 @@ var addPageLinks = function(data, tabName) {
 	}
 	else
 		$("#pages-" + tabName).append("<li>No results found</li>")
+	
+		$(".pagelinks-" + tabName).click( function(event) {
+			url = $(this).attr("href");
+			event.preventDefault();
+			if (tabName === "jobs")
+				handleJobsClick(tabName, url);
+			else if (tabName === "salaries")
+				handleSalariesClick(tabName, url);
+			else if (tabName === "companies")
+				handleCompaniesClick(tabName, url);
+			else if (tabName === "interviews")
+				handleInterviewsClick(tabName, url);
+		});
 }
 
 
