@@ -66,11 +66,11 @@ var getURL = function(tabName) {
 
 /// Add link pages
 var addPageLinks = function(data, tabName) {
-	$("#inset-" + tabName).prepend($("<h3></h3>").html("More Results"));
 	return_html = $(data.contents);
 	pages = return_html.find("div.pagingControls");
 	if (pages && pages.length > 0) {
 		all_links = pages.find("li");
+		var my_length = 0;
 		for (var i = 0; i < all_links.length; i++) {
 			if ($(all_links[i]).is(".prevBtn,.currPage,.seqBreak,.nextBtn")) continue;
 			a = $(all_links[i]).find("a");
@@ -79,8 +79,12 @@ var addPageLinks = function(data, tabName) {
     				.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + a.attr("href"))
     					.append($("<h1></h1>").html("Page: " + a.text())
     		)));
+			my_length += 1;
 			$("#pages-" + tabName).listview("refresh");
 		}
+		if (my_length > 0)
+			$("#inset-" + tabName).prepend($("<h3></h3>").html("More Results"));
+		
 	}
 	else
 		$("#pages-" + tabName).append("<li>No results found</li>")

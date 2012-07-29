@@ -1,3 +1,49 @@
+var createSalariesElement = function(salaryTbodyListing) {
+	var company_title = "";
+	var company_url = "";
+	tr = $(salaryTbodyListing).find("tr.employer");
+	if (!tr || tr.length <= 0)
+		return undefined;
+	company_element = tr.find("h3").find("a");
+	company_title = company_element.text();
+	company_url = company_element.attr("href");
+	el = $("<li></li>").attr("data-role", "list-divider").attr("data-theme", "a")
+			.append($("<a></a>").attr("href", company_url)
+				.append($("<h2></h2>").html(company_title + " (more...)").css("white-space", "normal"))
+		 );
+	return el;
+}
+
+var createSalariesIndividualElement = function(dataRow) {
+	title = "-";
+	url = "-";
+	num_reports = "-";
+	mean_salary = "-";
+	min_salary = "-";
+	max_salary = "-";
+	occ = $(dataRow).find("td.occ").find("p");
+	if (occ.length > 1) {
+		a = $(occ[0]).find("a");
+		title = a.text();
+		url = a.attr("href");
+	}
+	num_reports = $(dataRow).find("p.rowCounts").text();
+	mean_salary = $(dataRow).find("td.mean").text();
+	salary_graph = $(dataRow).find("td.salaryGraph");
+	if (salary_graph && salary_graph.length > 0) {
+		min_salary = salary_graph.find("div.lowValue").text();
+		max_salary = salary_graph.find("div.highValue").text();
+	}
+	el = $("<li></li>")
+			.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
+				.append($("<h1></h1>").html(title).css("white-space", "normal"))
+					.append($("<p></p>").html(num_reports).css("white-space", "normal"))
+						.append($("<p></p>").html("<b>Average Salary:</b> " + mean_salary).css("margin-left", "10px"))
+							.append($("<p></p>").html("<b>Min:</b> " + min_salary + " , <b>Max:</b> " + max_salary).css("margin-left", "10px"))
+		);
+	return el;
+}
+
 var handleSalariesClick = function(tabName) {
 	$.mobile.showPageLoadingMsg();
     clearStuff(tabName);
@@ -5,52 +51,35 @@ var handleSalariesClick = function(tabName) {
     $.getJSON(url, function(data){ 
     	$.mobile.hidePageLoadingMsg();
     	return_html = $(data.contents)
-    	all_companies = return_html.find("div.jobListing, div.multiEmployer, div.groupedByEmployer");
-    	table = return_html.find("table#SalaryChart")[0];
-    	if(all_companies.length != 0) {
-    		all_tbodies = $(table).find("tbody");
-    		for(var i = 0; i < all_tbodies.length; i++) {
-    			tr = $(all_tbodies[i]).find("tr.employer")[0];
-    			if (tr == undefined || tr == "")
-    				continue;
-    			a = $(tr).find("a");
-    			num_reports = "0 Salaries";
-    			more_tr = $(all_tbodies[i]).find("tr.moreData")[0]
-    			if (more_tr && more_tr != "")
-    				num_reports = $(more_tr).find("p")[1];
-    			
-    			$("#results-" + tabName)
-    				.append($("<li></li>")
-    					.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + a.attr("href")).attr("target", "_blank")
-    						.append($("<h1></h1>").html(a.text()).css("white-space", "normal"))
-    							.append($("<p></p>").html(num_reports).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal"))
-    			));
-    		}
-    		$("#results-" + tabName).listview("refresh");
-    	}
+    	table = return_html.find("table#SalaryChart");
+    	if (!table || table.length <= 0)
+    		$("#results-" + tabName).append("<h3>No results_found</h3>");
     	else {
-    		all_tr = $(table).find("tr.dataRow");
-    		for (var i = 0; i < all_tr.length; i++) {
-    			all_td = $(all_tr[i]).find("td");
-    			title = $(all_td[0]).find("strong");
-    			url = $(all_td[0]).find("a").attr("href");
-    			num_reports = $(all_td[0]).find("p.rowCounts");
-    			mean_salary = $(all_td[1]).find("span")[0].innerHTML;
-    			min_max = $(all_td[2]).find("span")
-    			min_salary = min_max[0].innerHTML;
-    			max_salary = min_max[1].innerHTML;
-    			$("#results-" + tabName)
-					.append($("<li></li>")
-						.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
-							.append($("<h1></h1>").html(title).css("white-space", "normal"))
-								.append($("<p></p>").html(num_reports).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal"))
-									.append($("<p></p>").html("<b>Average Salary:</b> " + mean_salary).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal"))
-										.append($("<p></p>").html("<b>Min:</b> " + min_salary + "<b> , Max:</b> " + max_salary).css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal"))
-				));
+    		tBodyList = $(table).find("tbody");
+    		if (tBodyList.length == 0)
+    			tBodyList = table;
+    		var my_length = 0;
+    		for (var i = 0; i < tBodyList.length; i++) {
+    			my_id = $(tBodyList[i]).attr("id");
+                if (my_id && my_id.match("SalarySearchResult_.*")) {
+                    el = createSalariesElement(tBodyList[i]);
+                    if (el) {
+                        $("#results-" + tabName).append(el);
+                        $("#results-" + tabName).listview("refresh");
+                        my_length += 1;
+                    }
+                }
+    			dataRow = $(tBodyList[i]).find("tr.dataRow");
+    			for (var j = 0; j < dataRow.length; j++) {
+    				el = createSalariesIndividualElement(dataRow[j]);
+    				$("#results-" + tabName).append(el);
+    				$("#results-" + tabName).listview("refresh");
+    			}
     		}
-    		$("#results-" + tabName).listview("refresh");
+            if (my_length > 0)
+              $("#results-" + tabName + "-header").append($("<h2> Showing " + my_length + " results</h2>"));
     	}
-       addPageLinks(data, tabName)
+    	addPageLinks(data, tabName)
     });
 	$("#search-" + tabName + "-collapsible").trigger("collapse");
 }
