@@ -71,8 +71,11 @@ var handleInterviewsClick = function(tabName) {
             $("#results-" + tabName).listview("refresh");
         }
         $("#results-" + tabName + "-header-alt").append($("<h2>More Interview Questions</h2>"))
-        interviewQuestionList = return_html.find("div#InterviewQuestionResult_1");
+        interviewQuestionList = return_html.find("div.interviewQuestionsList").find("div");
         for(var i = 0; i < interviewQuestionList.length; i++) {
+        	my_id = $(interviewQuestionList[i]).attr("id");
+        	if (!my_id || !my_id.match("InterviewQuestionResult_.*"))
+        		continue;
         	el = createInterviewElement(interviewQuestionList[i]);
         	if (el == undefined) continue;
         	$("#results-" + tabName + "-alt").append(el);

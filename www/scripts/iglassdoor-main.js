@@ -69,7 +69,7 @@ var addPageLinks = function(data, tabName) {
 	$("#inset-" + tabName).prepend($("<h3></h3>").html("More Results"));
 	return_html = $(data.contents);
 	pages = return_html.find("div.pagingControls");
-	if (pages) {
+	if (pages && pages.length > 0) {
 		all_links = pages.find("li");
 		for (var i = 0; i < all_links.length; i++) {
 			if ($(all_links[i]).is(".prevBtn,.currPage,.seqBreak,.nextBtn")) continue;
@@ -82,6 +82,8 @@ var addPageLinks = function(data, tabName) {
 			$("#pages-" + tabName).listview("refresh");
 		}
 	}
+	else
+		$("#pages-" + tabName).append("<li>No results found</li>")
 }
 
 
