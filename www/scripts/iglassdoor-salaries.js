@@ -56,7 +56,7 @@ var handleSalariesClick = function(tabName, passed_url) {
     	return_html = $(data.contents)
     	table = return_html.find("table#SalaryChart");
     	if (!table || table.length <= 0)
-    		$("#results-" + tabName).append("<h3>No results_found</h3>");
+    		$("#results-" + tabName).append("<h3>No results found</h3>");
     	else {
     		tBodyList = $(table).find("tbody");
     		if (tBodyList.length == 0)
