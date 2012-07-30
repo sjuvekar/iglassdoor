@@ -86,21 +86,19 @@ var addPageLinks = function(data, tabName) {
 			$("#inset-" + tabName).prepend($("<h3></h3>").html("More Results"));
 		
 	}
-	else
-		$("#pages-" + tabName).append("<li>No results found</li>")
 	
-		$(".pagelinks-" + tabName).click( function(event) {
-			url = $(this).attr("href");
-			event.preventDefault();
-			if (tabName === "jobs")
-				handleJobsClick(tabName, url);
-			else if (tabName === "salaries")
-				handleSalariesClick(tabName, url);
-			else if (tabName === "companies")
-				handleCompaniesClick(tabName, url);
-			else if (tabName === "interviews")
-				handleInterviewsClick(tabName, url);
-		});
+	$("a.pagelinks-" + tabName).click( function(event) {
+		url = $(this).data("href");
+		event.preventDefault();
+		if (tabName === "jobs")
+			handleJobsClick(tabName, url);
+		else if (tabName === "salaries")
+			handleSalariesClick(tabName, url);
+		else if (tabName === "companies")
+			handleCompaniesClick(tabName, url);
+		else if (tabName === "interviews")
+			handleInterviewsClick(tabName, url);
+	});
 }
 
 
