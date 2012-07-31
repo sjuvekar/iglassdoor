@@ -113,52 +113,6 @@ var clearStuff = function(tabName) {
 }
 
 
-
-/// A function to handle blog click
-var handleBlogClick = function() {
-	$.mobile.showPageLoadingMsg();
-	$.jGFeed("http://feeds2.feedburner.com/glassdoor", function(feeds) {
-		$.mobile.hidePageLoadingMsg();
-		if (!feeds) 
-			$("#results-blog").empty().append($("<li></li>").html("No feed"))
-		else {
-			$("#results-blog").empty()
-			for(var i=0; i<feeds.entries.length; i++){
-				var blog_post = feeds.entries[i];
-				$("#results-blog")
-					.append($("<li></li>")
-						.append($("<a></a>").attr("href", blog_post.link)
-							.append($("<img>").attr("src", "icons/blog-list.png"))
-			                                .append($("<h1></h1>").html(blog_post.title).css("white-space", "normal")
-				)));
-			}
-            	$("#results-blog").listview("refresh");
-		}
-	}, 10);	
-};
-
-/// A function to get tweets from GlassDoor
-var handleTwitterClick = function() {
-	$.mobile.showPageLoadingMsg();
-	var username = "Glassdoordotcom";   
-	var count = 10;
-	$("#results-twitter").empty();     
-	$.getJSON("http://twitter.com/status/user_timeline/" + username + ".json?count=" + count + "&callback=", function(data){
-		$.mobile.hidePageLoadingMsg();
-		$.each(data, function(i, item) {
-			$("#results-twitter")
-				.append($("<li></li>")
-					.append($("<a></a>").attr("href", "http://www.twitter.com/" + username + "/status/" + item.id_str)						
-						.append($("<img />").attr("src", "icons/twitter-list.png"))
-							.append($("<strong></strong>").html("Glassdoor&nbsp;"))
-								.append($("<i></i>").css("font-weight", "normal").css("font-size", "10px").html("@Glassdoordotcom"))
-									.append($("<p></p>").css("margin-top", "10px").css("margin-left", "10px").css("white-space", "normal").html(item.text)
-			)));
-		});
-		$("#results-twitter").listview("refresh")         
-	});
-};
-
 /// A global document oninit method
 $(document).bind("pageinit", function(event) {
 	// Reset locations
@@ -175,10 +129,10 @@ $(document).bind("pageinit", function(event) {
     	handleInterviewsClick("interviews");
     });
     /// Events after clicking Blog in more
-    $("#blog-list-item").click( function() { handleBlogClick(); }); 
-        
+    $("#iglassdoor-blog").live("pageshow", function() { handleBlogClick(); });
+    
     /// Events after clicking Twitter in more
-    $("#twitter-list-item").click( function() { handleTwitterClick(); });
+    $("#iglassdoor-twitter").live("pageshow", function() { handleTwitterClick(); });
 
     //setCookie(__HARDCODED_COOKIE__);
 });
