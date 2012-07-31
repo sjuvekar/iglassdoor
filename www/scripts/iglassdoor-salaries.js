@@ -7,10 +7,13 @@ var createSalariesElement = function(salaryTbodyListing) {
 	company_element = tr.find("h3").find("a");
 	company_title = company_element.text();
 	company_url = company_element.attr("href");
-	el = $("<li></li>").attr("data-role", "list-divider").attr("data-theme", "a")
-			.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + company_url).attr("target", "_blank")
-				.append($("<h2></h2>").html(company_title + " (more...)").css("white-space", "normal"))
-		 );
+	a_element = $("<a></a>").attr("href", __GLASSDOOR_URL__ + company_url).attr("target", "_blank")
+					.append($("<h2></h2>").html(company_title + " (more...)").css("white-space", "normal"));
+	a_element.click( function(event) {
+		event.preventDefault();
+		handleSalariesClick("salaries", __GLASSDOOR_URL__ + company_url);
+	});
+	el = $("<li></li>").attr("data-role", "list-divider").attr("data-theme", "a").append(a_element);
 	return el;
 }
 

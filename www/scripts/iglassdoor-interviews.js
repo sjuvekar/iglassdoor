@@ -12,11 +12,14 @@ var createInterviewCompanyDomElement = function(interviewCompanyListing) {
 	}
 	if (companyData)
 		description = companyData.text();
-	el = $("<li></li>")
-			.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
-				.append($("<h1></h1>").html(title).css("white-space", "normal"))
-					.append($("<p></p>").html(description).css("white-space", "normal"))
-		);
+	a_element = $("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
+					.append($("<h1></h1>").html(title).css("white-space", "normal"))
+						.append($("<p></p>").html(description).css("white-space", "normal"));
+	a_element.click( function(event) {
+		event.preventDefault();
+		handleInterviewsClick("interviews", __GLASSDOOR_URL__ + url);
+	});
+	el = $("<li></li>").append(a_element);
 	return el;
 }
 
@@ -46,8 +49,13 @@ var createInterviewElement = function(interviewQuestion) {
 var printEmployerHeader = function(return_html) {
 	if (return_html.find("p.seeAllEmployersLink").length > 0) {
 		all_employers = return_html.find("p.seeAllEmployersLink").find("a");
-		el = $("<a></a>").attr("href", all_employers.attr("href")).attr("target", "_blank")
+		url = all_employers.attr("href");
+		el = $("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank").addClass("iglassdoor-interviews-employer")
 				.append($("<h2>" + all_employers.text() + "</h2>"));
+		el.click( function(event) {
+			event.preventDefault();
+			handleInterviewsClick("interviews", __GLASSDOOR_URL__ + url);
+		});
 		return el;
 	}
 	return undefined;
@@ -73,17 +81,20 @@ var handleInterviewsClick = function(tabName, passed_url) {
         	$("#results-" + tabName).append(el);
             $("#results-" + tabName).listview("refresh");
         }
-        $("#results-" + tabName + "-header-alt").append($("<h2>More Interview Questions</h2>"))
         interviewQuestionList = return_html.find("div.interviewQuestionsList").find("div");
+        var my_length = 0;
         for(var i = 0; i < interviewQuestionList.length; i++) {
         	my_id = $(interviewQuestionList[i]).attr("id");
         	if (!my_id || !my_id.match("InterviewQuestionResult_.*"))
         		continue;
         	el = createInterviewElement(interviewQuestionList[i]);
         	if (el === undefined) continue;
+        	my_length += 1;
         	$("#results-" + tabName + "-alt").append(el);
             $("#results-" + tabName + "-alt").listview("refresh");
         }
+        if  (my_length > 0)
+        	$("#results-" + tabName + "-header-alt").append($("<h2>Interview Questions</h2>"));
         addPageLinks(data, tabName)
     });
 	$("#search-" + tabName + "-collapsible").trigger("collapse");

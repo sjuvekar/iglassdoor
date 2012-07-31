@@ -6,10 +6,13 @@ var createCompaniesElement = function(company_data) {
 		title = tightTop.text();
 		url = tightTop.attr("href");
 	}
-	el = $("<li></li>").attr("data-role", "list-divider").attr("data-theme", "a")
-			.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
-				.append($("<h2></h2>").html(title + " (more...)").css("white-space", "normal"))
-		);
+	a_element = $("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
+					.append($("<h2></h2>").html(title + " (more...)").css("white-space", "normal"));
+	a_element.click( function(event) {
+		event.preventDefault();
+		handleCompaniesClick("companies", __GLASSDOOR_URL__ + url);
+	});
+	el = $("<li></li>").attr("data-role", "list-divider").attr("data-theme", "a").append(a_element);
 	return el;
 }
 
@@ -44,10 +47,13 @@ var createSingleCompanyHeader = function(company_data) {
 	url_tag = $(company_data).find("p.seeMore").find("a");
 	url = url_tag.attr("href");
 	title = url_tag.text();
-	el = $("<li></li>").attr("data-role", "list-divider").attr("data-theme", "a")
-			.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
-					.append($("<h2></h2>").html(title).css("white-space", "normal"))
-			);
+	a_element = $("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
+					.append($("<h2></h2>").html(title).css("white-space", "normal"));
+	a_element.click( function(event) {
+		event.preventDefault();
+		handleCompaniesClick("companies", __GLASSDOOR_URL__ + url);
+	});
+	el = $("<li></li>").attr("data-role", "list-divider").attr("data-theme", "a").append(a_element);
 	return el;
 }
 
