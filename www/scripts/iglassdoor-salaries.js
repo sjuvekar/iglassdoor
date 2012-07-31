@@ -76,14 +76,20 @@ var handleSalariesClick = function(tabName, passed_url) {
                     }
                 }
     			dataRow = $(tBodyList[i]).find("tr.dataRow");
+                individual_length = 0;
     			for (var j = 0; j < dataRow.length; j++) {
     				el = createSalariesIndividualElement(dataRow[j]);
     				$("#results-" + tabName).append(el);
     				$("#results-" + tabName).listview("refresh");
-    			}
+                    individual_length += 1;
+                }
     		}
             if (my_length > 0)
               $("#results-" + tabName + "-header").append($("<h2> Showing " + my_length + " results</h2>"));
+            else if (individual_length > 0)
+              $("#results-" + tabName + "-header").append($("<h2> Showing " + individual_length + " results</h2>"));
+            else
+              $("#results-" + tabName + "-header").append($("<h2> No results found!</h2>"));
     	}
     	addPageLinks(data, tabName)
     });
