@@ -1,3 +1,19 @@
+var printEmployerHeader = function(return_html) {
+	if (return_html.find("p.seeAllEmployersLink").length > 0) {
+		all_employers = return_html.find("p.seeAllEmployersLink").find("a");
+		url = all_employers.attr("href");
+		el = $("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank").addClass("iglassdoor-interviews-employer")
+				.append($("<h2>" + all_employers.text() + "</h2>"));
+		el.click( function(event) {
+			event.preventDefault();
+			handleInterviewsClick("interviews", __GLASSDOOR_URL__ + url);
+		});
+		return el;
+	}
+	return undefined;
+}
+
+
 var createInterviewCompanyDomElement = function(interviewCompanyListing) {
 	var title = "";
 	var url = "";
@@ -46,20 +62,33 @@ var createInterviewElement = function(interviewQuestion) {
 	return el;
 }
 
-var printEmployerHeader = function(return_html) {
-	if (return_html.find("p.seeAllEmployersLink").length > 0) {
-		all_employers = return_html.find("p.seeAllEmployersLink").find("a");
-		url = all_employers.attr("href");
-		el = $("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank").addClass("iglassdoor-interviews-employer")
-				.append($("<h2>" + all_employers.text() + "</h2>"));
-		el.click( function(event) {
-			event.preventDefault();
-			handleInterviewsClick("interviews", __GLASSDOOR_URL__ + url);
-		});
-		return el;
+
+var createInterviewDetailElement = function(singleQuestion) {
+	var url = "";
+	var title = "";
+	var description = "";
+	var question = "";
+	header_div = $(singleQuestion).find("div.header").find("a");
+	url = header_div.attr("href");
+	title = header_div.text();
+	all_ps = $(singleQuestion).find("p");
+	for (var i = 0; i < all_ps.length; i++) {
+		my_id = $(all_ps[i]).attr("id");
+		if (my_id && my_id.match("Process-.*")) {
+			description = $(all_ps[i]).text();
+			break;
+		}
 	}
-	return undefined;
+	question = $(singleQuestion).find("div.question").text();
+	el = $("<li></li>")
+		.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
+			.append($("<h1></h1>").html(title).css("white-space", "normal"))
+				.append($("<p></p>").html(description).css("white-space", "normal"))
+					.append($("<p></p>").html("<b>Question: </b>" + question).css("white-space", "normal"))
+	);
+	return el;
 }
+
 
 var handleInterviewsClick = function(tabName, passed_url) {
 	$.mobile.showPageLoadingMsg();
@@ -95,6 +124,14 @@ var handleInterviewsClick = function(tabName, passed_url) {
         }
         if  (my_length > 0)
         	$("#results-" + tabName + "-header-alt").append($("<h2>Interview Questions</h2>"));
+        else {
+        	all_divs = return_html.find("div.interviewReview");
+        	for(var i = 0; i < all_divs.length; i++) {
+        		el = createInterviewDetailElement(all_divs[i]);
+        		$("#results-" + tabName + "-alt").append(el);
+                $("#results-" + tabName + "-alt").listview("refresh");
+        	}
+        }
         addPageLinks(data, tabName)
     });
 	$("#search-" + tabName + "-collapsible").trigger("collapse");
