@@ -89,6 +89,26 @@ var createSingleCompanyElement = function(company_data) {
 }
 
 
+var createAllReviewElement = function(review_element) {
+	var title = "";
+	var url = "";
+	var description = "";
+	summary_a = $(review_element).find("h2.summary").find("a");
+	title = summary_a.text();
+	url = summary_a.attr("href");
+	description_el = $(review_element).find("div.description");
+	all_ps = description_el.find("p");
+	for (var i = 0; i < all_ps.length; i++)
+		description += $(all_ps[i]).html() + "<br>";
+	el = $("<li></li>")
+			.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
+				.append($("<h1></h1>").html(title).css("white-space", "normal"))
+					.append($("<p></p>").html(description).css("white-space", "normal"))
+			);
+	return el;
+}
+
+
 var handleCompaniesClick = function(tabName, passed_url) {
 	$.mobile.showPageLoadingMsg();
     clearStuff(tabName);
@@ -121,6 +141,13 @@ var handleCompaniesClick = function(tabName, passed_url) {
         		$("#results-" + tabName).append(header_el);
         		$("#results-" + tabName).append(el);
         		$("#results-" + tabName).append(snippet);
+        	}
+        	else {
+        		all_reviews = return_html.find("div.employerReview");
+        		for (var i = 0; i < all_reviews.length; i++) {
+        			el = createAllReviewElement(all_reviews[i]);
+        			$("#results-" + tabName).append(el);
+        		}
         	}
         }
         $("#results-" + tabName).listview("refresh");
