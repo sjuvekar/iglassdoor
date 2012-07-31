@@ -13,7 +13,7 @@ var handleBlogClick = function() {
 					.append($("<li></li>")
 							.append($("<a></a>").attr("href", blog_post.link).attr("target", "_blank")
 								.append($("<img></img>").attr("src", "icons/blog-list.png").addClass("ui-li-icon"))
-			                		.append($("<h1></h1>").html(blog_post.title).css("white-space", "normal").css("margin-left", "15px")
+			                		.append($("<h1></h1>").html(blog_post.title).css("white-space", "normal")
 				)));
 			}
             	$("#results-blog").listview("refresh");
