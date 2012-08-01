@@ -144,10 +144,14 @@ var handleCompaniesClick = function(tabName, passed_url) {
         	}
         	else {
         		all_reviews = return_html.find("div.employerReview");
+        		var review_length = 0;
         		for (var i = 0; i < all_reviews.length; i++) {
         			el = createAllReviewElement(all_reviews[i]);
         			$("#results-" + tabName).append(el);
+        			review_length += 1;
         		}
+        		if (review_length == 0)
+        			$("#results-" + tabName + "-header").append($("<h2>No results found</h2>"));
         	}
         }
         $("#results-" + tabName).listview("refresh");
