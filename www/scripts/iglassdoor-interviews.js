@@ -6,7 +6,7 @@ var printEmployerHeader = function(return_html) {
 				.append($("<h2>" + all_employers.text() + "</h2>"));
 		el.click( function(event) {
 			event.preventDefault();
-			handleInterviewsClick("interviews", __GLASSDOOR_URL__ + url);
+			delegateSearchClick("interviews", __SEARCH_GET_URLS__ + "url=" + __GLASSDOOR_URL__ + url);
 		});
 		return el;
 	}
@@ -33,7 +33,7 @@ var createInterviewCompanyDomElement = function(interviewCompanyListing) {
 						.append($("<p></p>").html(description).css("white-space", "normal"));
 	a_element.click( function(event) {
 		event.preventDefault();
-		handleInterviewsClick("interviews", __GLASSDOOR_URL__ + url);
+		delegateSearchClick("interviews", __SEARCH_GET_URLS__ + "url=" + __GLASSDOOR_URL__ + url);
 	});
 	el = $("<li></li>").append(a_element);
 	return el;
@@ -90,13 +90,7 @@ var createInterviewDetailElement = function(singleQuestion) {
 }
 
 
-var handleInterviewsClick = function(tabName, passed_url) {
-	$.mobile.showPageLoadingMsg();
-    clearStuff(tabName);
-    if (passed_url)
-		url = __SEARCH_GET_URLS__ + "url=" + passed_url;
-	else
-		url = getURL(tabName);
+var handleInterviewsClick = function(tabName, url) {
     $.getJSON(url, function(data){ 
     	$.mobile.hidePageLoadingMsg();
     	return_html = $(data.contents);

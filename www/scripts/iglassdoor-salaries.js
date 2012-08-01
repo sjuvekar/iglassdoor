@@ -11,7 +11,7 @@ var createSalariesElement = function(salaryTbodyListing) {
 					.append($("<h2></h2>").html(company_title + " (more...)").css("white-space", "normal"));
 	a_element.click( function(event) {
 		event.preventDefault();
-		handleSalariesClick("salaries", __GLASSDOOR_URL__ + company_url);
+		delegateSearchClick("salaries", __SEARCH_GET_URLS__ + "url=" + __GLASSDOOR_URL__ + company_url);
 	});
 	el = $("<li></li>").attr("data-role", "list-divider").attr("data-theme", "a").append(a_element);
 	return el;
@@ -47,14 +47,8 @@ var createSalariesIndividualElement = function(dataRow) {
 	return el;
 }
 
-var handleSalariesClick = function(tabName, passed_url) {
-	$.mobile.showPageLoadingMsg();
-    clearStuff(tabName);
-    if (passed_url)
-		url = __SEARCH_GET_URLS__ + "url=" + passed_url;
-	else
-		url = getURL(tabName);
-    $.getJSON(url, function(data){ 
+var handleSalariesClick = function(tabName, url) {
+	$.getJSON(url, function(data){ 
     	$.mobile.hidePageLoadingMsg();
     	return_html = $(data.contents)
     	table = return_html.find("table#SalaryChart");

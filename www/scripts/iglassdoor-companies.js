@@ -10,7 +10,7 @@ var createCompaniesElement = function(company_data) {
 					.append($("<h2></h2>").html(title + " (more...)").css("white-space", "normal"));
 	a_element.click( function(event) {
 		event.preventDefault();
-		handleCompaniesClick("companies", __GLASSDOOR_URL__ + url);
+		delegateSearchClick("companies", __SEARCH_GET_URLS__ + "url=" + __GLASSDOOR_URL__ + url);
 	});
 	el = $("<li></li>").attr("data-role", "list-divider").attr("data-theme", "a").append(a_element);
 	return el;
@@ -51,7 +51,7 @@ var createSingleCompanyHeader = function(company_data) {
 					.append($("<h2></h2>").html(title).css("white-space", "normal"));
 	a_element.click( function(event) {
 		event.preventDefault();
-		handleCompaniesClick("companies", __GLASSDOOR_URL__ + url);
+		delegateSearchClick("companies", __SEARCH_GET_URLS__ + "url="  + __GLASSDOOR_URL__ + url);
 	});
 	el = $("<li></li>").attr("data-role", "list-divider").attr("data-theme", "a").append(a_element);
 	return el;
@@ -109,13 +109,7 @@ var createAllReviewElement = function(review_element) {
 }
 
 
-var handleCompaniesClick = function(tabName, passed_url) {
-	$.mobile.showPageLoadingMsg();
-    clearStuff(tabName);
-    if (passed_url)
-		url = __SEARCH_GET_URLS__ + "url=" + passed_url;
-	else
-		url = getURL(tabName);
+var handleCompaniesClick = function(tabName, url) {
     $.getJSON(url, function(data){
     	$.mobile.hidePageLoadingMsg();
     	return_html = $(data.contents)
