@@ -48,7 +48,7 @@ var delegateSearchClick = function(tabName, passed_url) {
 		my_location = my_location.replace(/\s/g, "-");	
 		if (my_location && my_location != "") {
             $("#search-" + tabName + "-collapsible").trigger("collapse");
-			$.getJSON(__LOCATION_SEARCH_URL__ + my_location + "&callback=?", function(data) {
+            $.getJSON(__LOCATION_SEARCH_URL__ + my_location + "&callback=", function(data) {
 				if (data.locations.length == 0) {
 					url += "&callback=?";
 		                handleAppropriateClick(tabName, url);
