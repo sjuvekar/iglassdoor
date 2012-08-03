@@ -32,14 +32,21 @@ var delegateSearchClick = function(tabName, passed_url) {
     	locT = "";
     	company = $("#search-" + tabName).val();
 		if (!company || company === "") {
-			$("#search-" + tabName).attr("placeholder", "Please enter a company name");
+            $.mobile.hidePageLoadingMsg();
+            alert("Please enter a company name");
 			return;
 		}
 		company = company.replace(/\s/g, "-");
 		url = __SEARCH_GET_URLS__ + "type=" + tabName + "&company=" + company
+        my_title = $("#search-" + tabName + "-title").val();
+        if (my_title && my_title != "") {
+            my_title = my_title.replace(/\s/g, "-");
+            url += "&title=" + my_title;
+        }
 		my_location = $("#search-" + tabName + "-location").val();
 		my_location = my_location.replace(/\s/g, "-");	
-		if (my_location != null && my_location != "") {
+		if (my_location && my_location != "") {
+            $("#search-" + tabName + "-collapsible").trigger("collapse");
 			$.getJSON(__LOCATION_SEARCH_URL__ + my_location + "&callback=", function(data) {
 				if (data.locations.length == 0) {
 					url += "&callback=";
