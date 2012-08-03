@@ -4,7 +4,7 @@ var handleTwitterClick = function() {
 	var username = "Glassdoordotcom";   
 	var count = 10;
 	$("#results-twitter").empty();     
-	$.getJSON("http://twitter.com/status/user_timeline/" + username + ".json?count=" + count, function(data){
+	$.getJSON("http://twitter.com/status/user_timeline/" + username + ".json?count=" + count + "&callback=?", function(data){
 		$.mobile.hidePageLoadingMsg();
 		$.each(data, function(i, item) {
 			$("#results-twitter")

@@ -2,10 +2,11 @@
 var __LOCATION_SEARCH_URL__ = "http://www.glassdoor.com/findLocationsByFullTextAjax.htm?locationSearchString="
 
 // Glassdoor main url
-var __GLASSDOOR_URL__ = "http://www.glassdoor.com"
+var __GLASSDOOR_URL__ = "www.glassdoor.com"
 
 /// A hash table for maintaining search get urls
-var __SEARCH_GET_URLS__ = "http://www.iglassdoor-sjuvekar.appspot.com/search?"
+//var __SEARCH_GET_URLS__ = "http://www.iglassdoor-sjuvekar.appspot.com/search?"
+var __SEARCH_GET_URLS__ = "http://www.sudeep-juvekar.com/search.php?"
 
 /// A hash table for display string after searching
 __DISPLAY_STRING__ = new Object()
@@ -47,20 +48,20 @@ var delegateSearchClick = function(tabName, passed_url) {
 		my_location = my_location.replace(/\s/g, "-");	
 		if (my_location && my_location != "") {
             $("#search-" + tabName + "-collapsible").trigger("collapse");
-			$.getJSON(__LOCATION_SEARCH_URL__ + my_location + "&callback=", function(data) {
+			$.getJSON(__LOCATION_SEARCH_URL__ + my_location + "&callback=?", function(data) {
 				if (data.locations.length == 0) {
-					url += "&callback=";
+					url += "&callback=?";
 		                handleAppropriateClick(tabName, url);
 				}
 				first_location = data.locations[0];
 				locId = first_location.id;
 				locT = first_location.type;
-				url += "&locId=" + locId + "&locT=" + locT + "&callback="; 
+				url += "&locId=" + locId + "&locT=" + locT + "&callback=?"; 
 				handleAppropriateClick(tabName, url);
 			});
 		}
 		else {
-			url += "&callback=";
+			url += "&callback=?";
 			handleAppropriateClick(tabName, url);
 		}
     }
