@@ -6,7 +6,7 @@ var createCompaniesElement = function(company_data) {
 		title = tightTop.text();
 		url = tightTop.attr("href");
 	}
-	a_element = $("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
+	a_element = $("<a></a>").attr("href", "http://" + __GLASSDOOR_URL__ + url).attr("target", "_blank")
 					.append($("<h2></h2>").html(title + " (more...)").css("white-space", "normal"));
 	a_element.click( function(event) {
 		event.preventDefault();
@@ -33,7 +33,7 @@ var createCompaniesSnippetElement = function(company_data) {
 		}
 	}
 	summary = $("<li></li>")
-				.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + employee_url).attr("target", "_blank")
+				.append($("<a></a>").attr("href", "http://" + __GLASSDOOR_URL__ + employee_url).attr("target", "_blank")
 					.append($("<h1></h1>").html(employee).css("white-space", "normal"))
 						.append($("<p></p>").html(summary).css("white-space", "normal"))
 	);
@@ -47,7 +47,7 @@ var createSingleCompanyHeader = function(company_data) {
 	url_tag = $(company_data).find("p.seeMore").find("a");
 	url = url_tag.attr("href");
 	title = url_tag.text();
-	a_element = $("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
+	a_element = $("<a></a>").attr("href", "http://" + __GLASSDOOR_URL__ + url).attr("target", "_blank")
 					.append($("<h2></h2>").html(title).css("white-space", "normal"));
 	a_element.click( function(event) {
 		event.preventDefault();
@@ -74,7 +74,7 @@ var createSingleCompanyElement = function(company_data) {
 	description = $(company_data).find("div.description");
 	all_as = description.find("a");
 	for (var i = 0; i < all_as.length; i++) {
-		$(all_as[i]).attr("href", __GLASSDOOR_URL__ + $(all_as[i]).attr("href"));
+		$(all_as[i]).attr("href", "http://" + __GLASSDOOR_URL__ + $(all_as[i]).attr("href"));
 		$(all_as[i]).attr("target", "_blank");
 	}
 	desc_el = ""
@@ -101,7 +101,7 @@ var createAllReviewElement = function(review_element) {
 	for (var i = 0; i < all_ps.length; i++)
 		description += $(all_ps[i]).html() + "<br>";
 	el = $("<li></li>")
-			.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
+			.append($("<a></a>").attr("href", "http://" + __GLASSDOOR_URL__ + url).attr("target", "_blank")
 				.append($("<h1></h1>").html(title).css("white-space", "normal"))
 					.append($("<p></p>").html(description).css("white-space", "normal"))
 			);

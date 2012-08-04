@@ -2,7 +2,7 @@ var printEmployerHeader = function(return_html) {
 	if (return_html.find("p.seeAllEmployersLink").length > 0) {
 		all_employers = return_html.find("p.seeAllEmployersLink").find("a");
 		url = all_employers.attr("href");
-		el = $("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank").addClass("iglassdoor-interviews-employer")
+		el = $("<a></a>").attr("href", "http://" + __GLASSDOOR_URL__ + url).attr("target", "_blank").addClass("iglassdoor-interviews-employer")
 				.append($("<h2>" + all_employers.text() + "</h2>"));
 		el.click( function(event) {
 			event.preventDefault();
@@ -28,7 +28,7 @@ var createInterviewCompanyDomElement = function(interviewCompanyListing) {
 	}
 	if (companyData)
 		description = companyData.text();
-	a_element = $("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
+	a_element = $("<a></a>").attr("href", "http://" + __GLASSDOOR_URL__ + url).attr("target", "_blank")
 					.append($("<h1></h1>").html(title).css("white-space", "normal"))
 						.append($("<p></p>").html(description).css("white-space", "normal"));
 	a_element.click( function(event) {
@@ -55,7 +55,7 @@ var createInterviewElement = function(interviewQuestion) {
 	if (interview_detail)
 		description = interview_detail.text();
 	el = $("<li></li>")
-	.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
+	.append($("<a></a>").attr("href", "http://" + __GLASSDOOR_URL__ + url).attr("target", "_blank")
 		.append($("<h1></h1>").html(title).css("white-space", "normal"))
 			.append($("<p></p>").html(description).css("white-space", "normal"))
 	);
@@ -81,7 +81,7 @@ var createInterviewDetailElement = function(singleQuestion) {
 	}
 	question = $(singleQuestion).find("div.question").text();
 	el = $("<li></li>")
-		.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
+		.append($("<a></a>").attr("href", "http://" + __GLASSDOOR_URL__ + url).attr("target", "_blank")
 			.append($("<h1></h1>").html(title).css("white-space", "normal"))
 				.append($("<p></p>").html(description).css("white-space", "normal"))
 					.append($("<p></p>").html("<b>Question: </b>" + question).css("white-space", "normal"))

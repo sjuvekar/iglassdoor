@@ -20,7 +20,7 @@ var createJobDomElement = function(jobListing) {
 		job_description = jobListingData.find("p.desc").text();
 	}
 	el = $("<li><li>")
-		.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
+		.append($("<a></a>").attr("href", "http://" + __GLASSDOOR_URL__ + url).attr("target", "_blank")
 			.append($("<h1></h1>").html(title).css("white-space", "normal"))
 				.append($("<p></p>").html(job_location).css("margin-left", "10px"))
 					.append($("<p></p>").html(job_description).css("white-space", "normal"))

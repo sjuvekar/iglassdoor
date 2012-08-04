@@ -7,7 +7,7 @@ var createSalariesElement = function(salaryTbodyListing) {
 	company_element = tr.find("h3").find("a");
 	company_title = company_element.text();
 	company_url = company_element.attr("href");
-	a_element = $("<a></a>").attr("href", __GLASSDOOR_URL__ + company_url).attr("target", "_blank")
+	a_element = $("<a></a>").attr("href", "http://" + __GLASSDOOR_URL__ + company_url).attr("target", "_blank")
 					.append($("<h2></h2>").html(company_title + " (more...)").css("white-space", "normal"));
 	a_element.click( function(event) {
 		event.preventDefault();
@@ -38,7 +38,7 @@ var createSalariesIndividualElement = function(dataRow) {
 		max_salary = salary_graph.find("div.highValue").text();
 	}
 	el = $("<li></li>")
-			.append($("<a></a>").attr("href", __GLASSDOOR_URL__ + url).attr("target", "_blank")
+			.append($("<a></a>").attr("href", "http://" + __GLASSDOOR_URL__ + url).attr("target", "_blank")
 				.append($("<h1></h1>").html(title).css("white-space", "normal"))
 					.append($("<p></p>").html(num_reports).css("white-space", "normal"))
 						.append($("<p></p>").html("<b>Average Salary:</b> " + mean_salary).css("margin-left", "10px"))
