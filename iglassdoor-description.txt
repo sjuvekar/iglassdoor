@@ -1,0 +1,11 @@
+"IGlassDoor": An inside look at jobs, companies, salaries... now on iPhone.
+
+IGlassDoor brings information from glassdoor.com, the premiere online jobs and salaries community, customized to your iPhone - that mans bigger texts, more concise results and better browsing. Now you can
+
+* Search for jobs in your area and field of specialization. Also search the jobs by job titles you are interested in.
+* See what employers/ex-employers say about a company
+* Browse salary information anonymously posted by glassdoor.com users
+* Take a look at interview process, first hand interview experiences and some interview questions from different companies.
+* Read latest blog posts and tweets from glassdoor.com
+
+Every link in the app takes you to the original glassdoor.com webpage for more details. 
